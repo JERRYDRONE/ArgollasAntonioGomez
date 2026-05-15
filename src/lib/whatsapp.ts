@@ -1,14 +1,37 @@
 /**
  * ─── CONFIGURACIÓN DE WHATSAPP ───────────────────────────────────────────────
- * Reemplaza WHATSAPP_NUMBER con el número real en formato internacional
- * sin el símbolo '+'. Ejemplo para México (lada 33): "5233XXXXXXXX"
  */
-export const WHATSAPP_NUMBER = "5233XXXXXXXX";
+export const WHATSAPP_NUMBER = "523318568357";
 
-/**
- * Construye la URL de WhatsApp con texto prellenado.
- * @param text - Mensaje que verá el usuario al abrir la conversación.
- */
 export function buildWhatsAppUrl(text: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
+
+// ─── Plantillas de mensajes por tipo de venta ────────────────────────────────
+
+export const whatsappTemplates = {
+  menudeo: buildWhatsAppUrl(
+    `Hola, me interesa cotizar argollas soldadas calibre 3/16 galvanizadas en volumen de MENUDEO (100 a 500 piezas).`
+  ),
+
+  medioMayoreo: buildWhatsAppUrl(
+    `Hola, me interesa cotizar argollas soldadas calibre 3/16 galvanizadas en volumen de MEDIO MAYOREO (1,000 a 4,999 piezas).`
+  ),
+
+  mayoreo: buildWhatsAppUrl(
+    `Hola, me interesa cotizar argollas soldadas calibre 3/16 galvanizadas en volumen de MAYOREO (5,000 piezas o más).`
+  ),
+
+  general: buildWhatsAppUrl(
+    `Hola, me interesa cotizar argollas soldadas calibre 3/16 galvanizadas. ¿Me pueden dar información?`
+  ),
+} as const;
+
+/** Genera un mensaje con la cantidad exacta elegida por el cliente, sin precios. */
+export function buildCalculatorUrl(qty: number): string {
+  return buildWhatsAppUrl(
+    `Hola, me interesa cotizar *${qty.toLocaleString("es-MX")} argollas soldadas calibre 3/16 galvanizadas*. ¿Me pueden confirmar disponibilidad?`
+  );
+}
+
+

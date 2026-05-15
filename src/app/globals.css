@@ -1,1 +1,88 @@
 @import "tailwindcss";
+
+/* ── Dark mode via .dark class (Tailwind v4) ───────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Prevenir desbordamiento horizontal en móvil ──────────────────────────── */
+@layer base {
+  /* overflow-x: clip NO crea scroll container → no rompe touch events en iOS Safari */
+  html {
+    overflow-x: clip;
+  }
+  body {
+    overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* iOS Safari requiere cursor:pointer para que los <button> reciban tap events.
+     touch-action:manipulation elimina el delay de 300ms y el zoom en doble tap. */
+  button {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  a {
+    touch-action: manipulation;
+  }
+}
+
+/* ── Keyframes ────────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; } /* sin transform en el estado final → no rompe position:sticky en iOS Safari */
+}
+
+@keyframes pulseSoft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  50%       { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+}
+
+@keyframes shimmerBg {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes badgePop {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  60%  { transform: translateX(-50%) scale(1.1); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* ── Custom utilities ─────────────────────────────────────────────────────── */
+@layer utilities {
+  .animate-fade-in-up    { animation: fadeInUp   0.65s ease-out both; }
+  .animate-fade-in-left  { animation: fadeInLeft  0.65s ease-out both; }
+  .animate-fade-in-right { animation: fadeInRight 0.65s ease-out both; }
+  .animate-scale-in      { animation: scaleIn     0.5s  ease-out both; }
+  .animate-slide-down    { animation: slideDown   0.45s ease-out both; }
+  .animate-pulse-soft    { animation: pulseSoft   2.5s  ease-in-out infinite; }
+  .animate-badge-pop     { animation: badgePop    0.5s  cubic-bezier(.34,1.56,.64,1) both; }
+
+  .delay-75  { animation-delay:  75ms; transition-delay:  75ms; }
+  .delay-100 { animation-delay: 100ms; transition-delay: 100ms; }
+  .delay-150 { animation-delay: 150ms; transition-delay: 150ms; }
+  .delay-200 { animation-delay: 200ms; transition-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; transition-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; transition-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; transition-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; transition-delay: 600ms; }
+}
+
